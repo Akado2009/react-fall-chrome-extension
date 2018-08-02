@@ -1,8 +1,44 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import React from "react"
+import { render } from "react-dom"
+import { Provider } from "react-redux"
+import store from "./redux"
 
-ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
+import App from './App'
+
+import blueGrey from '@material-ui/core/colors/blueGrey'
+import pink from '@material-ui/core/colors/pink'
+
+import { MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles'
+
+import Bootstrap from 'bootstrap/dist/css/bootstrap.css'
+
+const theme = createMuiTheme({
+    palette: {
+      primary: {
+        light: pink[400],
+        main: pink[200],
+        dark: pink[900],
+        contrastText: '#fff',
+      },
+      secondary: {
+        light: blueGrey[400],
+        main: blueGrey[700],
+        dark: blueGrey[900],
+        contrastText: '#000',
+      },
+    }
+    ,
+    typography: {
+      fontSize: 14,
+      htmlFontSize: 10,
+    }
+})
+
+render(
+    <MuiThemeProvider theme={theme}>
+      <Provider store={store}>
+          <App />
+      </Provider>
+    </MuiThemeProvider>
+  , document.getElementById("root")
+)
