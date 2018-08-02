@@ -1,16 +1,17 @@
 window.onload = () => {
+  var content = document.body.innerHTML
+  var bgColor = document.body.style.backgroundColor
   chrome.runtime.onMessage.addListener((request, sender, response) => {
     if(request.startApp) {
 
       let body = $('body')
       document.body.innerHTML = ''
-      const NUMBER = 100
+      const NUMBER = 500
       const WIDTH = document.body.clientWidth
-      const HEIGHT = document.documentElement.scrollHeigh
+      const HEIGHT = document.documentElement.scrollHeight
       // change css a bit
       $('body').css('backgroundColor', request.backgroundColor).css('height', '100%').css('overflow', 'hidden').css('position', 'relative')
       // $('.rain').css('background', `linear-gradient(#e66465, #9198e5`)
-      $('.rain').css('background', `linear-gradient(to bottom, rgba(255,255,255,0) 0%, ${request.color} 100%)`)
       let dropsArray = []
       for(let i = 0; i < NUMBER; i++) {
           let drop = new Drop(WIDTH, HEIGHT, i)
@@ -25,7 +26,11 @@ window.onload = () => {
               drop.fall()
               drop.draw()
           })
-      }, 100)
+      }, 200)
+    } else if (request.stopApp) {
+      document.body.innerHTML = content
+      $('.rain').remove()
+      document.body.style.backgroundColor = bgColor
     }
   })
 }

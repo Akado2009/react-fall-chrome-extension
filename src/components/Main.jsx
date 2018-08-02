@@ -56,7 +56,7 @@ const Main = (props) => {
         props.changeBackgroundColor(color)
     }
 
-    const test = () =>{
+    const start = () =>{
         chrome.tabs.query({
             active: true,
             currentWindow: true,
@@ -67,6 +67,21 @@ const Main = (props) => {
               { startApp: true,
                 backgroundColor: props.backgroundColor,
                 color: props.color
+              },
+              response => window.close()
+            );
+        });
+    }
+
+    const stop = () =>{
+        chrome.tabs.query({
+            active: true,
+            currentWindow: true,
+          }, (tabs) => {
+            // Send message to script file
+            chrome.tabs.sendMessage(
+              tabs[0].id,
+              { stopApp: true
               },
               response => window.close()
             );
@@ -108,10 +123,10 @@ const Main = (props) => {
                 />
             </div>
             <div style={{ textAlign: 'center' }}>
-                <Button id="stop" variant="contained" color="primary" className={classes.button}>
+                <Button id="stop" onClick={stop} variant="contained" color="primary" className={classes.button}>
                     Stop
                 </Button>
-                <Button id="start" onClick={test} variant="contained" color="primary" className={classes.button}>
+                <Button id="start" onClick={start} variant="contained" color="primary" className={classes.button}>
                     Start
                 </Button>
             </div>
