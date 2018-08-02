@@ -1,3 +1,5 @@
+/*global chrome*/
+
 import React from 'react'
 import PropTypes from 'prop-types'
 
@@ -54,6 +56,23 @@ const Main = (props) => {
         props.changeBackgroundColor(color)
     }
 
+    const test = () =>{
+        chrome.tabs.query({
+            active: true,
+            currentWindow: true,
+          }, (tabs) => {
+            // Send message to script file
+            chrome.tabs.sendMessage(
+              tabs[0].id,
+              { startApp: true,
+                backgroundColor: props.backgroundColor,
+                color: props.color
+              },
+              response => window.close()
+            );
+        });
+    }
+
     return (
         <div className={classes.root}>
             <List>
@@ -89,10 +108,10 @@ const Main = (props) => {
                 />
             </div>
             <div style={{ textAlign: 'center' }}>
-                <Button onClick={props.stop} variant="contained" color="primary" className={classes.button}>
+                <Button id="stop" variant="contained" color="primary" className={classes.button}>
                     Stop
                 </Button>
-                <Button onClick={props.start} variant="contained" color="primary" className={classes.button}>
+                <Button id="start" onClick={test} variant="contained" color="primary" className={classes.button}>
                     Start
                 </Button>
             </div>

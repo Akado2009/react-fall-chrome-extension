@@ -13,5 +13,13 @@
     "128": "drop.png"
   },
   "permissions": [
+    "tabs"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["jquery-3.3.1.min.js", "main.js"],
+      "css": [ "rain.css" ]
+    }
   ]
 }
